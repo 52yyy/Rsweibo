@@ -187,12 +187,12 @@ sweiboContent <- function(sword, page = 1, curl = NULL, begin.time = NULL, end.t
 ## roauth		模拟登陆对象
 ## sword		搜索关键词
 ## page			搜索页数，默认为最大页数50
-## combinewith	见@lijian Rweibo包
+## combinewith		见@lijian Rweibo包
 ## since		见@lijian Rweibo包
 ## sinceID		见@lijian Rweibo包
-## sleepmean	翻页等待时间mean，默认为20，若小可能出现验证码，造成无法查询结果
+## sleepmean		翻页等待时间mean，默认为20，若小可能出现验证码，造成无法查询结果
 ## sleepsd		翻页等待时间sd，默认为1
-## begin.time	高级搜索功能，设置起始时间，格式"yyyy-mm-dd-hh"
+## begin.time		高级搜索功能，设置起始时间，格式"yyyy-mm-dd-hh"
 ## end.time		高级搜索功能，设置结束时间，格式"yyyy-mm-dd-hh"
 searchWeiboContent <- function(roauth, sword, page = 50, combinewith = NULL, 
                                      since = NULL, sinceID = NULL, sleepmean = 20, sleepsd = 1, 
