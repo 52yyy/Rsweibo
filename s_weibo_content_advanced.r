@@ -45,20 +45,10 @@ library(digest)
 }
 
 ## 拼凑URL
-.assembleURL <- function(search.word,
-				 xsort = "",
-				 scope = FALSE,
-				 atten = FALSE,
-				 vip = FALSE,
-				 haspic = FALSE,
-				 hasvideo = FALSE,
-				 hasmusic = FALSE,
-				 haslink = FALSE, 
-				 userscope = "",
-				 begin.timescope = "",
-				 end.timescope = "",
-				 province.region = "",
-				 city.region = "") {
+.assembleURL <- function(search.word, xsort = "", scope = FALSE, atten = FALSE,
+	vip = FALSE, haspic = FALSE, hasvideo = FALSE, hasmusic = FALSE, 
+	haslink = FALSE,  userscope = "", begin.timescope = "", end.timescope = "",
+	province.region = "", city.region = "") {
   host <- "http://s.weibo.com/weibo/"
   search.word <- curlEscape(.cntoUTF8(search.word))
   search.word <- curlEscape(.cntoUTF8(search.word))
@@ -164,30 +154,15 @@ sweiboContent <- function(strurl, page = 1, curl = NULL, ...) {
 
 
 
-searchWeiboContent <- function(roauth, 
-					 sword, 
-					 page = 1, 
-					 combinewith = NULL, 
-					 since = NULL, 
-					 sinceID = NULL, 
-					 sleepmean = 22, 
-					 sleepsd = 1, 
-					 xsort = "",
-					 scope = FALSE,
-					 atten = FALSE,
-					 vip = FALSE,
-					 haspic = FALSE,
-					 hasvideo = FALSE,
-					 hasmusic = FALSE,
-					 haslink = FALSE, 
-					 userscope = "",
-					 begin.timescope = "",
-					 end.timescope = "",
-					 province.region = "",
-					 city.region = "")
+searchWeiboContent <- function(roauth,  sword,  page = 1,  combinewith = NULL, 
+	since = NULL,  sinceID = NULL, sleepmean = 22,  sleepsd = 1, 
+	xsort = "", scope = FALSE, atten = FALSE, vip = FALSE, 
+	haspic = FALSE, hasvideo = FALSE, hasmusic = FALSE, haslink = FALSE,  
+	userscope = "", begin.timescope = "", end.timescope = "", province.region = "", 
+	city.region = "")
 {
   ### 参数
-  #	roauth	Oauth授权
+  #	roauth		Oauth授权
   #	sword		搜索关键词
   #	page		抓取页数
   #	combinewith	
@@ -199,15 +174,15 @@ searchWeiboContent <- function(roauth,
   #	scope		类型：是否原创，默认FALSE
   #	atten		类型：是否我关注的，默认FALSE
   #	vip		类型：是否认证用户，默认FALSE
-  #	haspic	类型：是否带有图片，默认FALSE
+  #	haspic		类型：是否带有图片，默认FALSE
   #	hasvideo	类型：是否带有视频，默认FALSE
   #	hasmusic	类型：是否带有音乐，默认FALSE
-  #	haslink	类型：是否带有短链，默认FALSE
+  #	haslink		类型：是否带有短链，默认FALSE
   #	userscope	昵称：默认无昵称
   #	begin.timescope	时间：起始时间，默认无
   #	end.timescope	时间：结束时间，默认无
   #	province.region	地区：省份，默认无
-  #	city.region		地区：城市，默认无
+  #	city.region	地区：城市，默认无
   require(RCurl)
   require(XML)
   require(RJSONIO)
