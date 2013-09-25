@@ -45,10 +45,20 @@ library(digest)
 }
 
 ## 拼凑URL
-.assembleURL <- function(search.word, xsort = "", scope = FALSE, atten = FALSE,
-	vip = FALSE, haspic = FALSE, hasvideo = FALSE, hasmusic = FALSE, 
-	haslink = FALSE,  userscope = "", begin.timescope = "", end.timescope = "",
-	province.region = "", city.region = "") {
+.assembleURL <- function(search.word,
+				 xsort = "",
+				 scope = FALSE,
+				 atten = FALSE,
+				 vip = FALSE,
+				 haspic = FALSE,
+				 hasvideo = FALSE,
+				 hasmusic = FALSE,
+				 haslink = FALSE, 
+				 userscope = "",
+				 begin.timescope = "",
+				 end.timescope = "",
+				 province.region = "",
+				 city.region = "") {
   host <- "http://s.weibo.com/weibo/"
   search.word <- curlEscape(.cntoUTF8(search.word))
   search.word <- curlEscape(.cntoUTF8(search.word))
@@ -60,34 +70,28 @@ library(digest)
   if (is.na(xsort)) stop("参数xsort只能是\"default\"、\"time\"或\"hot\"")
   if (xsort == 1) SORT <- "" else SORT <- paste("&xsort=", XSORT[xsort], sep = "")
 
-  ## 普通搜索
-  if (refer == 1) {
-    strurl <- paste(host, search.word, SORT, "&page=", sep = "")
+  ## 类型
+  SCOPE <- ifelse(scope, "&scope=ori", "")
+  ATTEN <- ifelse(atten, "&atten=1", "")
+  VIP <- ifelse(vip, "&vip=1", "")
+  PIC <- ifelse(haspic, "&haspic=1", "")
+  VIDEO <- ifelse(hasvideo, "&hasvideo=1", "")
+  MUSIC <- ifelse(hasmusic, "&hasmusic=1", "")
+  LINK <- ifelse(haslink, "&haslink=1", "")
+  ## 昵称
+  if (nchar(userscope) == 0) USERSCOPE <- "" else {
+  userscope <- curlEscape(.cntoUTF8(userscope))
+  userscope <- curlEscape(.cntoUTF8(userscope))
+  USERSCOPE <- paste("&userscope=custom%253A", userscope, sep = "")
   }
-  ## 高级搜索
-  if (refer == 2) {
-    ## 类型
-    SCOPE <- ifelse(scope, "&scope=ori", "")
-    ATTEN <- ifelse(atten, "&atten=1", "")
-    VIP <- ifelse(vip, "&vip=1", "")
-    PIC <- ifelse(haspic, "&haspic=1", "")
-    VIDEO <- ifelse(hasvideo, "&hasvideo=1", "")
-    MUSIC <- ifelse(hasmusic, "&hasmusic=1", "")
-    LINK <- ifelse(haslink, "&haslink=1", "")
-    ## 昵称
-    if (nchar(userscope) == 0) USERSCOPE <- "" else {
-    userscope <- curlEscape(.cntoUTF8(userscope))
-    userscope <- curlEscape(.cntoUTF8(userscope))
-    USERSCOPE <- paste("&userscope=custom%253A", userscope, sep = "")
-    }
-    ## 时间
-    if (nchar(begin.timescope) == 0 & nchar(end.timescope) == 0) TIMESCOPE <- "" else 
-    TIMESCOPE <- paste("&timescope=custom:", begin.timescope, ":", end.timescope, sep = "")
-    ## 地区
-    REGION <- ""
-    ## 参数汇总
-    strurl <- paste(host, search.word, SORT, SCOPE, ATTEN, VIP, PIC, VIDEO, MUSIC, LINK, USERSCOPE, REGION, TIMESCOPE, "&page=", sep = "")    
-  }
+  ## 时间
+  if (nchar(begin.timescope) == 0 & nchar(end.timescope) == 0) TIMESCOPE <- "" else 
+  TIMESCOPE <- paste("&timescope=custom:", begin.timescope, ":", end.timescope, sep = "")
+  ## 地区
+  REGION <- ""
+  ## 参数汇总
+  strurl <- paste(host, search.word, SORT, SCOPE, ATTEN, VIP, PIC, VIDEO, MUSIC, LINK, USERSCOPE, REGION, TIMESCOPE, "&page=", sep = "")    
+
   return(strurl)
 }
 
@@ -154,15 +158,30 @@ sweiboContent <- function(strurl, page = 1, curl = NULL, ...) {
 
 
 
-searchWeiboContent <- function(roauth,  sword,  page = 1,  combinewith = NULL, 
-	since = NULL,  sinceID = NULL, sleepmean = 22,  sleepsd = 1, 
-	xsort = "", scope = FALSE, atten = FALSE, vip = FALSE, 
-	haspic = FALSE, hasvideo = FALSE, hasmusic = FALSE, haslink = FALSE,  
-	userscope = "", begin.timescope = "", end.timescope = "", province.region = "", 
-	city.region = "")
+searchWeiboContent <- function(roauth, 
+					 sword, 
+					 page = 1, 
+					 combinewith = NULL, 
+					 since = NULL, 
+					 sinceID = NULL, 
+					 sleepmean = 22, 
+					 sleepsd = 1, 
+					 xsort = "",
+					 scope = FALSE,
+					 atten = FALSE,
+					 vip = FALSE,
+					 haspic = FALSE,
+					 hasvideo = FALSE,
+					 hasmusic = FALSE,
+					 haslink = FALSE, 
+					 userscope = "",
+					 begin.timescope = "",
+					 end.timescope = "",
+					 province.region = "",
+					 city.region = "")
 {
   ### 参数
-  #	roauth		Oauth授权
+  #	roauth	Oauth授权
   #	sword		搜索关键词
   #	page		抓取页数
   #	combinewith	
@@ -174,15 +193,15 @@ searchWeiboContent <- function(roauth,  sword,  page = 1,  combinewith = NULL,
   #	scope		类型：是否原创，默认FALSE
   #	atten		类型：是否我关注的，默认FALSE
   #	vip		类型：是否认证用户，默认FALSE
-  #	haspic		类型：是否带有图片，默认FALSE
+  #	haspic	类型：是否带有图片，默认FALSE
   #	hasvideo	类型：是否带有视频，默认FALSE
   #	hasmusic	类型：是否带有音乐，默认FALSE
-  #	haslink		类型：是否带有短链，默认FALSE
+  #	haslink	类型：是否带有短链，默认FALSE
   #	userscope	昵称：默认无昵称
   #	begin.timescope	时间：起始时间，默认无
   #	end.timescope	时间：结束时间，默认无
   #	province.region	地区：省份，默认无
-  #	city.region	地区：城市，默认无
+  #	city.region		地区：城市，默认无
   require(RCurl)
   require(XML)
   require(RJSONIO)
