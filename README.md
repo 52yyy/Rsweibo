@@ -13,18 +13,13 @@ Rsweibo包主要处理新浪微博站内搜索和高级搜索的数据抓取问�
 
 Rsweibo主要文件：
 
-(a) sweibo_timescope.r
+(a) s_weibo_login.r
 
-提供新浪微博高级搜索中按时间搜索功能，包括f_weibo_login()和searchWeiboContent()两个主要函数。
+提供新浪微博模拟登陆功能，由@波波头一头 开发，主要函数为weiboLogin()
 
 Example:
 
-channel <- f_weibo_login(name="username",pwd="password")  # 输入自己的用户名和密码
-
-res <- searchWeiboContent(channel, sword = "沈浩老师", page=7,
-	begin.time = "2013-01-01-0", end.time = "2013-01-31-23")  # 搜索"沈浩老师"关键词在2013年1月份的微博结果
-
-nrow(res)  # 返回搜索结果条数
+channel <- weiboLogin(name="username",pwd="password")  # 输入自己的用户名和密码
 
 (b) s_weibo_content_advanced.r
 
@@ -76,7 +71,7 @@ nrow(res)  # 返回搜索结果条数
   
 Example：
 
-channel <- f_weibo_login(name="username",pwd="password")  # 输入自己的用户名和密码
+channel <- weiboLogin(name="username",pwd="password")  # 输入自己的用户名和密码
 
 res <- searchWeiboContent(channel, sword = "沈浩老师", page=7, xsort = "time"
 	haslink = TRUE, scope = TRUE, sleepmean = 20)  # 按时间顺序搜索"沈浩老师"关键词含有短链的原创微博结果，返回前7页内容
