@@ -73,7 +73,7 @@ Example：
 
 channel <- weiboLogin(name="username",pwd="password")  # 输入自己的用户名和密码
 
-res <- searchWeiboContent(channel, sword = "沈浩老师", page=7, xsort = "time"
+res <- searchWeiboContent(channel, sword = "沈浩老师", page=7, xsort = "time",
 	haslink = TRUE, scope = TRUE, sleepmean = 20)  # 按时间顺序搜索"沈浩老师"关键词含有短链的原创微博结果，返回前7页内容
 
 nrow(res)  # 返回搜索结果条数
